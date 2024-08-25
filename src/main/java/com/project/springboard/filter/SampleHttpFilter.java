@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 @Slf4j
-public class HttpFilter implements Filter {
+public class SampleHttpFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
