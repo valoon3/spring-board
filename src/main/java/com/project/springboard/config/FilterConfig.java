@@ -1,6 +1,5 @@
 package com.project.springboard.config;
 
-import com.project.springboard.filter.SampleHttpFilter;
 import com.project.springboard.filter.RequestAndResponseLoggingFilter;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
