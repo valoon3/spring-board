@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +28,10 @@ public class NoteService {
             noteEntity.setUpdatedAt(LocalDateTime.now());
         }
         return noteRepository.save(noteEntity);
+    }
+
+    // 전체 글 조회
+    public List<NoteEntity> findMany() {
+        return noteRepository.findAll();
     }
 }

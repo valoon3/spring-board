@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/note")
@@ -20,10 +22,9 @@ public class NoteController {
         return ResponseEntity.ok(createdNote);
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        noteService.hello();
-//        System.out.println("hello world");
-        return "hello world";
+    @GetMapping
+    public ResponseEntity<List<NoteEntity>> findMany() {
+        List<NoteEntity> notes = noteService.findMany();
+        return ResponseEntity.ok(notes);
     }
 }
