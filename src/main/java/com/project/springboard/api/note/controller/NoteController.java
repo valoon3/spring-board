@@ -2,6 +2,7 @@ package com.project.springboard.api.note.controller;
 
 import com.project.springboard.api.note.entities.NoteEntity;
 import com.project.springboard.api.note.service.NoteService;
+import com.project.springboard.common.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,8 @@ public class NoteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<NoteEntity>> findMany() {
+    public BaseResponse<List<NoteEntity>> findMany() {
         List<NoteEntity> notes = noteService.findMany();
-        return ResponseEntity.ok(notes);
+        return BaseResponse.success(notes);
     }
 }
