@@ -14,13 +14,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Long signup(AddUserRequest dto) throws Exception {
+    public Long signup(AddUserRequest addUserRequest) throws Exception {
         return userRepository.save(UserEntity.builder()
-                .email(dto.getEmail())
-                .nickname(dto.getNickname())
-                .username(dto.getUsername())
+                .email(addUserRequest.getEmail())
+                .nickname(addUserRequest.getNickname())
+                .username(addUserRequest.getUsername())
                 // 패스워드 암호화
-                .password(passwordEncoder.encode(dto.getPassword()))
+                .password(passwordEncoder.encode(addUserRequest.getPassword()))
                 .build()).getId();
     }
 
