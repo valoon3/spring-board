@@ -1,7 +1,9 @@
 package com.project.springboard.api.user.controller;
 
 import com.project.springboard.api.user.dtos.AddUserRequest;
+import com.project.springboard.api.user.dtos.LoginRequest;
 import com.project.springboard.api.user.service.UserService;
+import com.project.springboard.common.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,14 +17,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/login")
-    public String login() {
-
-        return "asdf";
+    @PostMapping("/signup")
+    public BaseResponse<Long> signup(@RequestBody AddUserRequest addUserRequest) throws Exception {
+        return BaseResponse.success(userService.signup(addUserRequest));
     }
 
-    @PostMapping("/signup")
-    public Long signup(@RequestBody AddUserRequest addUserRequest) throws Exception {
-        return userService.signup(addUserRequest);
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest loginRequest) {
+        return BaseResponse.success(userService.login(loginRequest));
     }
 }

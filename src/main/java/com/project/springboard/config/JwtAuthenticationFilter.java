@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // 2. 인증 생략
         String requestURI = httpServletRequest.getRequestURI();
-        if (notAuthorizationUri.stream().filter(uri -> uri.equals(requestURI)).findFirst().isPresent()) {
+        if (notAuthorizationUri.stream().anyMatch(uri -> uri.equals(requestURI))) {
             chain.doFilter(request, response);
         }
     }

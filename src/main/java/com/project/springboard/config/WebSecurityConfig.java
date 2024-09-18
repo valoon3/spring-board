@@ -30,14 +30,14 @@ public class WebSecurityConfig {
                 .httpBasic(httpSecurity -> httpSecurity.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
-                        .requestMatchers(
-                                "/api",
-                                "/api/auth",
-                                "/api/auth/signup",
-                                "/auth/signup"
-                        )
-                        .permitAll() // 특정경로 인증없이 접근
-//                        .anyRequest().authenticated()
+//                        .requestMatchers(
+//                                "/api",
+//                                "/api/auth",
+//                                "/api/auth/signup",
+//                                "/auth/signup"
+//                        )
+//                        .permitAll() // 특정경로 인증없이 접근
+                        .anyRequest().authenticated()
                 )
 //                .logout(logout -> logout.permitAll())
                 .csrf(csrf -> csrf.disable())
