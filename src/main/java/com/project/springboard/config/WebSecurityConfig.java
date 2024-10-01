@@ -23,11 +23,11 @@ public class WebSecurityConfig {
         // 모든 URL 허용
         return http
                 .addFilterBefore(
-                        new JwtAuthenticationFilter()
-                        , UsernamePasswordAuthenticationFilter.class
+                        new JwtAuthenticationFilter(),
+                        UsernamePasswordAuthenticationFilter.class
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(httpSecurity -> httpSecurity.disable())
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
 //                        .requestMatchers(
@@ -45,13 +45,6 @@ public class WebSecurityConfig {
 
 //        return http.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        manager.createUser(User.withUsername("user1").password("1234").roles("user").build());
-//        return manager;
-//    }
 
     // 패스워드 인코더로 사용할 빈 등록
     @Bean

@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class TokenInfoDto {
 
     @NotNull
-    private String grantType;
+    private String grantType; // 토큰 타입
 
     @NotNull
-    private String accessToken;
+    private String accessToken; // 엑세스 토큰
 }

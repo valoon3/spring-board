@@ -23,13 +23,14 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 이메일 로그인 방식
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)  // 유일한 값으로 설정 (사용자 이름 중복 불가)
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false, unique = true)
