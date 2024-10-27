@@ -14,6 +14,8 @@ public enum ErrorType {
 
     MEMBER_NOT_EXISTS("M-003", "해당 회원은 존재하지 않습니다."),
     NOT_SAME_PASSWORD("M-004", "비밀번호가 같지 않습니다. 비밀번호를 확인해주세요"),
+    NOT_VALID_PASSWORD("AUTH-001", "비밀번호가 일치하지 않습니다.")
+
 
     ;
 

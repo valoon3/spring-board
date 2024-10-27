@@ -1,8 +1,10 @@
 package com.project.springboard.config;
 
+import com.project.springboard.api.auth.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,42 +15,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-@RequiredArgsConstructor
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@RequiredArgsConstructor
 public class WebSecurityConfig {
+
+    private final TokenManager tokenManager;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 모든 URL 허용
         return http
-                .addFilterBefore(
-                        new JwtAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class
-                )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
-//                        .requestMatchers(
-//                                "/api",
-//                                "/api/auth",
-//                                "/api/auth/signup",
-//                                "/auth/signup"
-//                        )
-//                        .permitAll() // 특정경로 인증없이 접근
-                        .anyRequest().authenticated()
+                .addFilterBefore(
+                        new JwtAuthenticationFilter(tokenManager),
+                        UsernamePasswordAuthenticationFilter.class
                 )
-//                .logout(logout -> logout.permitAll())
-                .csrf(csrf -> csrf.disable())
+                // JWT 관련 예외를 처리하는 필터를 JwtAuthenticationFilter 앞에 추가
+//                .addFilterBefore(
+//                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
+//                )
+//                .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
+//                        .anyRequest().authenticated()
+//                )
                 .build();
-
-//        return http.build();
     }
 
     // 패스워드 인코더로 사용할 빈 등록
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(7);
     }
 }
