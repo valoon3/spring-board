@@ -1,8 +1,6 @@
 package com.project.springboard.api.user.controller;
 
 import com.project.springboard.api.user.dtos.AddUserRequest;
-import com.project.springboard.api.user.dtos.LoginRequest;
-import com.project.springboard.api.user.entities.UserEntity;
 import com.project.springboard.api.user.service.UserService;
 import com.project.springboard.common.BaseResponse;
 import jakarta.validation.Valid;
@@ -24,8 +22,8 @@ public class UserController {
         return BaseResponse.success(userService.signup(addUserRequest));
     }
 
-    @PostMapping("/login")
-    public BaseResponse<UserEntity> login(@RequestBody LoginRequest loginRequest) {
-        return BaseResponse.success(userService.login(loginRequest));
-    }
+//    @PostMapping("/login")
+//    public BaseResponse<UserEntity> login(@RequestBody LoginRequest loginRequest) {
+//        return BaseResponse.success(userService.login(loginRequest));
+//    }
 }
