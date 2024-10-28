@@ -29,8 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         if (notAuthorizationUri.stream().anyMatch(uri -> uri.equals(requestURI))) {
             chain.doFilter(request, response);
-        }
-        else {
+        } else {
             // 3. header Beaber 검증
             String authorizationHeader = request.getHeader("Authorization");
             AuthorizationHeaderUtils.validateAuthorization(authorizationHeader);
@@ -42,8 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //        // 4. 스프링 시큐리티에 인증정보 세팅
 //        var authentication = tokenManager.getAuthentication(token);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
+            chain.doFilter(request, response);
         }
 
-        chain.doFilter(request, response);
     }
 }
