@@ -33,6 +33,7 @@ public class TokenManager {
 
         String accessToken = createAccessToken(memberId, accessTokenExpireTime);
         String refreshToken = createRefreshToken(memberId, refreshTokenExpireTime);
+
         return JwtToken.builder()
                 .grantType(GrantType.BEARER.getType())
                 .accessToken(accessToken)
@@ -64,7 +65,7 @@ public class TokenManager {
      * 주어진 사용자 ID, 역할, 만료 시간을 바탕으로 액세스 토큰을 생성합니다.
      *
      * @param memberId 사용자 ID
-//     * @param roles    사용자 역할
+     * @param roles    사용자 역할
      * @param expirationTime 토큰 만료 시간
      * @return 생성된 액세스 토큰
      */
@@ -117,19 +118,6 @@ public class TokenManager {
             e.printStackTrace();
         }
     }
-
-//    public Authentication getAuthentication(String token) {
-//        Claims claims = getClams(token);
-//
-//        Long userId = Long.valueOf((Integer) claims.get("memberId"));
-//        if (userId == null) {
-//            throw new RuntimeException("잘못된 토큰입니다.");  // 회원 ID가 없는 경우 예외 발생
-//        }
-//
-//        UserDetails principal = new CustomUser(userId, claims.getSubject(), "", authorities);
-//
-//        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
-//    }
 
 
     private Claims getClams(String token) {
