@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Long signup(AddUserRequest addUserRequest) throws Exception {
+    public Long signup(AddUserRequest addUserRequest) {
         return userRepository.save(UserEntity.builder()
                 .email(addUserRequest.getEmail())
                 .nickname(addUserRequest.getNickname())

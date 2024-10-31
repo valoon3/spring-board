@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public BaseResponse<Long> signup(@Valid @RequestBody AddUserRequest addUserRequest) throws Exception {
+    public BaseResponse<Long> signup(@Valid @RequestBody AddUserRequest addUserRequest) {
         return BaseResponse.success(userService.signup(addUserRequest));
     }
 
