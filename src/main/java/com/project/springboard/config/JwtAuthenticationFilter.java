@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-//public class JwtAuthenticationFilter extends GenericFilterBean {
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenManager tokenManager;
