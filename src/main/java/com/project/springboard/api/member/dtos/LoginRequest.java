@@ -1,4 +1,4 @@
-package com.project.springboard.api.user.dtos;
+package com.project.springboard.api.member.dtos;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

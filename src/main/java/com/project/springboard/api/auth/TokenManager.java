@@ -77,7 +77,7 @@ public class TokenManager {
                 .setSubject(TokenType.ACCESS.name())    // 토큰 제목 설정
                 .setIssuedAt(new Date())                // 토큰 발급 시간 설정
                 .setExpiration(expirationTime)          // 토큰 만료 시간 설정
-                .claim("memberId", memberId)            // 사용자 ID 설정
+                .claim("userId", memberId)            // 사용자 ID 설정
 //                .claim("roles", roles)                  // 사용자 역할 설정
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))  // 서명 알고리즘 및 비밀 키 설정
                 .setHeaderParam("typ", "JWT")           // 토큰 유형 설정
@@ -97,7 +97,7 @@ public class TokenManager {
                 .setSubject(TokenType.REFRESH.name())   // 토큰 제목 설정
                 .setIssuedAt(new Date())                // 토큰 발급 시간 설정
                 .setExpiration(expirationTime)          // 토큰 만료 시간 설정
-                .claim("memberId", memberId)            // 사용자 ID 설정
+                .claim("userId", memberId)            // 사용자 ID 설정
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))  // 서명 알고리즘 및 비밀 키 설정
                 .setHeaderParam("typ", "JWT")           // 토큰 유형 설정
                 .compact();
@@ -106,29 +106,34 @@ public class TokenManager {
 
     public void validateToken(String token) {
         try {
-            Jwts
-                    .parser()
-                    .setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
+            Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
                     .parseClaimsJws(token);  // 토큰을 파싱하고 검증
         } catch (ExpiredJwtException e) {
-            log.info("만료된 토큰", e);
-            e.printStackTrace();
-        } catch (Exception e) {
-            log.info("유효하지 않은 token", e);
-            e.printStackTrace();
-        }
-    }
-
-
-    private Claims getClams(String token) {
-        try {
-            Claims claims = Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
-                    .parseClaimsJws(token).getBody();  // 토큰에서 클레임을 파싱하고 추출
-            return claims;
+            log.info("token 만료", e);  // 토큰이 만료된 경우 로그 기록
+            throw new UnauthorizedException(ErrorType.TOKEN_EXPIRED);  // 만료 예외 발생
         } catch (Exception e) {
             log.info("유효하지 않은 token", e);  // 유효하지 않은 토큰인 경우 로그 기록
             throw new UnauthorizedException(ErrorType.NOT_VALID_TOKEN);  // 유효하지 않은 토큰 예외 발생
         }
     }
+
+
+    public Claims getClaims(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
+                    .parseClaimsJws(token).getBody();  // 토큰에서 클레임을 파싱하고 추출
+        } catch (Exception e) {
+            log.info("유효하지 않은 token", e);  // 유효하지 않은 토큰인 경우 로그 기록
+            throw new UnauthorizedException(ErrorType.NOT_VALID_TOKEN);  // 유효하지 않은 토큰 예외 발생
+        }
+        return claims;
+    }
+
+//    public Authentication getAuthentication(String token) {
+//        Claims claims = getClaims(token);  // 토큰에서 클레임 추출
+//
+//        Long userId = claims.get("userId", Long.class);
+//    }
 
 }

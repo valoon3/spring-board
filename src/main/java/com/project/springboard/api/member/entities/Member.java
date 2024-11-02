@@ -1,4 +1,4 @@
-package com.project.springboard.api.user.entities;
+package com.project.springboard.api.member.entities;
 
 import com.project.springboard.common.util.DateUtils;
 import jakarta.persistence.*;
@@ -8,16 +8,16 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "members")
 @Data
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long memberId;
 
     // 이메일 로그인 방식
     @Column(nullable = false, unique = true)

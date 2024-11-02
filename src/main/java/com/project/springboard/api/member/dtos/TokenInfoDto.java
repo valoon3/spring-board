@@ -1,4 +1,4 @@
-package com.project.springboard.api.user.dtos;
+package com.project.springboard.api.member.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
