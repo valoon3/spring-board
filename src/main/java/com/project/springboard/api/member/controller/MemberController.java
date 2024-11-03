@@ -1,7 +1,7 @@
 package com.project.springboard.api.member.controller;
 
 import com.project.springboard.api.auth.JwtToken;
-import com.project.springboard.api.member.dtos.AddMemberRequest;
+import com.project.springboard.api.member.dtos.MemberRegisterRequest;
 import com.project.springboard.api.member.dtos.LoginRequest;
 import com.project.springboard.api.member.service.MemberService;
 import com.project.springboard.common.BaseResponse;
@@ -25,7 +25,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public BaseResponse<Long> signup(@Valid @RequestBody AddMemberRequest addMemberRequest) {
-        return BaseResponse.success(userService.signup(addMemberRequest));
+    public BaseResponse<Long> signup(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
+        return BaseResponse.success(userService.signup(memberRegisterRequest));
     }
 }

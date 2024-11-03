@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AddMemberRequest {
+public class MemberRegisterRequest {
     String email;
     String password;
     String username;

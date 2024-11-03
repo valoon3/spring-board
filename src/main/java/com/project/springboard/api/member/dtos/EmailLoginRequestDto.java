@@ -1,4 +1,4 @@
-package com.project.springboard.api.auth.dto;
+package com.project.springboard.api.member.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -2,8 +2,9 @@ package com.project.springboard.api.member.service;
 
 import com.project.springboard.api.auth.JwtToken;
 import com.project.springboard.api.auth.TokenManager;
-import com.project.springboard.api.member.dtos.AddMemberRequest;
+import com.project.springboard.api.member.constant.RoleType;
 import com.project.springboard.api.member.dtos.LoginRequest;
+import com.project.springboard.api.member.dtos.MemberRegisterRequest;
 import com.project.springboard.api.member.entities.Member;
 import com.project.springboard.api.member.repository.MemberRepository;
 import com.project.springboard.error.ErrorType;
@@ -11,6 +12,7 @@ import com.project.springboard.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenManager tokenManager;
+
+    private final MemberRoleService memberRoleService;
 
     public JwtToken login(LoginRequest request) {
         // 사용자 조회
@@ -37,14 +41,18 @@ public class MemberService {
         return jwtTokenDto;
     }
 
-    public Long signup(AddMemberRequest addMemberRequest) {
-        return memberRepository.save(Member.builder()
-                .email(addMemberRequest.getEmail())
-                .nickname(addMemberRequest.getNickname())
-                .username(addMemberRequest.getUsername())
-                // 패스워드 암호화
-                .password(passwordEncoder.encode(addMemberRequest.getPassword()))
-                .build())
-                .getMemberId();
+    @Transactional
+    public Long signup(MemberRegisterRequest request) {
+        Member member = Member.createMember(
+                request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getNickname(),
+                request.getUsername()
+        );
+
+        memberRepository.save(member);
+        memberRoleService.createMemberRoles(member, RoleType.getRoleTypeList(RoleType.ROLE_USER));
+
+        return member.getMemberId();
     }
 }
