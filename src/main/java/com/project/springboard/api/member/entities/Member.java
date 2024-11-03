@@ -55,8 +55,8 @@ public class Member {
     public static Member createMember(
             String email,
             String password,
-            String username,
-            String nickname
+            String nickname,
+            String username
     ) {
         return Member.builder()
                 .email(email)
