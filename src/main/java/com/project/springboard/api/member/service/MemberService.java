@@ -7,6 +7,7 @@ import com.project.springboard.api.member.dtos.LoginRequest;
 import com.project.springboard.api.member.dtos.MemberRegisterRequest;
 import com.project.springboard.api.member.entities.Member;
 import com.project.springboard.api.member.repository.MemberRepository;
+import com.project.springboard.api.member.repository.MemberRoleRepository;
 import com.project.springboard.error.ErrorType;
 import com.project.springboard.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberRoleRepository memberRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenManager tokenManager;
 
@@ -29,13 +32,18 @@ public class MemberService {
         Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorType.MEMBER_NOT_EXISTS));
 
+        String roles = member.getRoles().stream()
+                .map(role -> role.getRoleType().name())
+                .reduce((role1, role2) -> role1 + "," + role2)
+                .orElse("");
+
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new EntityNotFoundException(ErrorType.NOT_VALID_PASSWORD);
         }
 
         // refresh token 업데이트
-        JwtToken jwtTokenDto = tokenManager.createJwtTokenDto(member.getMemberId());
+        JwtToken jwtTokenDto = tokenManager.createJwtTokenDto(member.getMemberId(), roles);
         member.updateRefreshToken(jwtTokenDto.getRefreshToken(), jwtTokenDto.getRefreshTokenExpireTime());
 
         return jwtTokenDto;

@@ -1,6 +1,7 @@
 package com.project.springboard.config;
 
 import com.project.springboard.api.auth.TokenManager;
+import com.project.springboard.config.filter.JwtExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,9 +40,12 @@ public class WebSecurityConfig {
 //                .addFilterBefore(
 //                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
 //                )
-//                .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
-//                        .anyRequest().authenticated()
-//                )
+                .addFilterAfter(
+                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
+                )
+                .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
+                        .anyRequest().authenticated()
+                )
                 .build();
     }
 
