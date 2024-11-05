@@ -1,17 +1,24 @@
 package com.project.springboard.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.springboard.common.BaseResponse;
+import com.project.springboard.error.ErrorType;
+import com.project.springboard.error.exception.BadRequestException;
+import com.project.springboard.error.exception.ForbiddenException;
 import com.project.springboard.error.exception.UnauthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.coyote.BadRequestException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
+@Component
 public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
 
     // JSON 변환을 위해 ObjectMapper 사용
@@ -41,31 +48,34 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
         } catch (UnauthorizedException e) {
             // 인증 인가 예외 발생 시 처리
             // 인증 인가 예외에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
-//            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(e.getErrorType()));
-//            response.getWriter().write(errorResponse);
+            ErrorType errorType = e.getErrorType();
+            String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(errorType));
+            response.getWriter().write(errorResponse);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
 //            log.error("UnauthroizedException 발생: {}", e.getMessage(), e);
-//        } catch (ForbiddenException e) {
-//            // 접근 권한에 대한 예외 발생 시 처리
-//            // 접근 권한 예외에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
-//            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(e.getErrorType()));
-//            response.getWriter().write(errorResponse);
-//            response.setStatus(HttpStatus.FORBIDDEN.value());
-////            log.error("ForbiddenException 발생: {}", e.getMessage(), e);
+        } catch (ForbiddenException e) {
+            // 접근 권한에 대한 예외 발생 시 처리
+            // 접근 권한 예외에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
+            String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(e.getErrorType()));
+            response.getWriter().write(errorResponse);
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+//            log.error("ForbiddenException 발생: {}", e.getMessage(), e);
         } catch (BadRequestException e) {
             // 비즈니스 예외 발생 시 처리
             // 비즈니스 예외에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
-//            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(e.getErrorType()));
-//            response.getWriter().write(errorResponse);
+            String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(e.getErrorType()));
+            response.getWriter().write(errorResponse);
             response.setStatus(HttpStatus.BAD_REQUEST.value());
-//            log.error("BadRequestException 발생: {}", e.getMessage(), e);
+            log.error("BadRequestException 발생: {}", e.getMessage(), e);
         } catch (Exception e) {
             // 일반 예외 발생 시 처리
-            // 서버 에러에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
-//            String errorResponse = objectMapper.writeValueAsString(ErrorResponse.of(ErrorType.SERVER_ERROR));
-//            response.getWriter().write(errorResponse);
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-//            log.error("Exception 발생: {}", e.getMessage(), e);
+//             서버 에러에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
+            ErrorType errorType = ErrorType.SERVER_ERROR;
+
+            String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(errorType));
+            response.getWriter().write(errorResponse);
+//            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            log.error("Exception 발생: {}", e.getMessage(), e);
         }
 
     }

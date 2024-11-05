@@ -33,15 +33,11 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(
+                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
+                )
+                .addFilterBefore(
                         new JwtAuthenticationFilter(tokenManager),
                         UsernamePasswordAuthenticationFilter.class
-                )
-                // JWT 관련 예외를 처리하는 필터를 JwtAuthenticationFilter 앞에 추가
-//                .addFilterBefore(
-//                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
-//                )
-                .addFilterAfter(
-                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
                 )
                 .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
                         .anyRequest().authenticated()

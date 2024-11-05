@@ -1,11 +1,13 @@
 package com.project.springboard.common.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor
 public class ResponseBodyDto<T> {
     private T data;
@@ -23,7 +25,7 @@ public class ResponseBodyDto<T> {
         this.message = message;
     }
 
-    public ResponseBodyDto(T data, String message, String logMessage) {
+    public ResponseBodyDto(T data, String logMessage, String message) {
         this(data, message);
         this.logMessage = logMessage;
     }
