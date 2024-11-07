@@ -52,14 +52,14 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
             String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(errorType));
             response.getWriter().write(errorResponse);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//            log.error("UnauthroizedException 발생: {}", e.getMessage(), e);
+            log.error("UnauthroizedException 발생: {}", e.getMessage(), e);
         } catch (ForbiddenException e) {
             // 접근 권한에 대한 예외 발생 시 처리
             // 접근 권한 예외에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
             String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(e.getErrorType()));
             response.getWriter().write(errorResponse);
             response.setStatus(HttpStatus.FORBIDDEN.value());
-//            log.error("ForbiddenException 발생: {}", e.getMessage(), e);
+            log.error("ForbiddenException 발생: {}", e.getMessage(), e);
         } catch (BadRequestException e) {
             // 비즈니스 예외 발생 시 처리
             // 비즈니스 예외에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
@@ -74,7 +74,7 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
 
             String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(errorType));
             response.getWriter().write(errorResponse);
-//            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             log.error("Exception 발생: {}", e.getMessage(), e);
         }
 
