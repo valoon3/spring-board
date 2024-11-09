@@ -1,5 +1,6 @@
 package com.project.springboard.api.member.entities;
 
+import com.project.springboard.common.entity.BaseEntity;
 import com.project.springboard.common.util.DateUtils;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,7 +23,7 @@ import java.util.List;
                 columnNames = {"email"}
         )
 })
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;

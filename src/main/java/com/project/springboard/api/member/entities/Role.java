@@ -17,14 +17,14 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long roleId;
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
     // Member와의 다대일 관계 설정
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
