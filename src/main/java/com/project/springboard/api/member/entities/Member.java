@@ -10,12 +10,18 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "members")
 @Data
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "members",
+        uniqueConstraints = {
+        @UniqueConstraint(
+                name = "unique_email",
+                columnNames = {"email"}
+        )
+})
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -25,7 +25,14 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public BaseResponse<Long> signup(@Valid @RequestBody MemberRegisterRequest memberRegisterRequest) {
-        return BaseResponse.success(userService.signup(memberRegisterRequest));
+    public BaseResponse<Long> signup(@Valid @RequestBody MemberRegisterRequest request) {
+        return BaseResponse.success(
+                userService.signup(
+                    request.getEmail(),
+                    request.getPassword(),
+                    request.getNickname(),
+                    request.getUsername()
+                )
+        );
     }
 }

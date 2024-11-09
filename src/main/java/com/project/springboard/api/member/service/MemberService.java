@@ -4,7 +4,6 @@ import com.project.springboard.api.auth.JwtToken;
 import com.project.springboard.api.auth.TokenManager;
 import com.project.springboard.api.member.constant.RoleType;
 import com.project.springboard.api.member.dtos.LoginRequest;
-import com.project.springboard.api.member.dtos.MemberRegisterRequest;
 import com.project.springboard.api.member.entities.Member;
 import com.project.springboard.api.member.repository.MemberRepository;
 import com.project.springboard.api.member.repository.MemberRoleRepository;
@@ -50,12 +49,12 @@ public class MemberService {
     }
 
     @Transactional
-    public Long signup(MemberRegisterRequest request) {
+    public Long signup(String email, String password, String nickname, String username) {
         Member member = Member.createMember(
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getNickname(),
-                request.getUsername()
+                email,
+                passwordEncoder.encode(password),
+                nickname,
+                username
         );
 
         memberRepository.save(member);

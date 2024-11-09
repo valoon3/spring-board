@@ -33,11 +33,11 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(
-                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
-                )
-                .addFilterBefore(
                         new JwtAuthenticationFilter(tokenManager),
                         UsernamePasswordAuthenticationFilter.class
+                )
+                .addFilterBefore(
+                        new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
                 )
                 .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
                         .anyRequest().authenticated()
