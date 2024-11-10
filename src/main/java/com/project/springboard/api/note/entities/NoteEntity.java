@@ -1,5 +1,6 @@
 package com.project.springboard.api.note.entities;
 
+import com.project.springboard.api.member.entities.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,11 +21,8 @@ public class NoteEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
-
     @Column(nullable = false)
-    private String author;
+    private String content;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -32,14 +30,26 @@ public class NoteEntity {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-//    @PrePersist
-//    protected void onCreate() {
-//        this.createdAt = LocalDateTime.now();
-//        this.updatedAt = LocalDateTime.now();
-//    }
-//
-//    @PreUpdate
-//    protected void onUpdate() {
-//        this.updatedAt = LocalDateTime.now();
-//    }
+    @ManyToOne
+    private Member author;
+
+    public NoteEntity(String title, String content, Member author) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+    }
+
+    public static NoteEntity createNote(String title, String content, Member author) {
+        return new NoteEntity(
+                title,
+                content,
+                author
+        );
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 }

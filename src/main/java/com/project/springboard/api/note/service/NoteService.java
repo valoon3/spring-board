@@ -2,6 +2,10 @@ package com.project.springboard.api.note.service;
 
 import com.project.springboard.api.note.entities.NoteEntity;
 import com.project.springboard.api.note.repository.NoteRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +37,13 @@ public class NoteService {
     // 전체 글 조회
     public List<NoteEntity> findMany() {
         return noteRepository.findAll();
+    }
+
+    public void test() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.project.springboard.api.note.entities");
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
     }
 }
