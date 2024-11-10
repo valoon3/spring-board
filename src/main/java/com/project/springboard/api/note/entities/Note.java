@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data // @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor를 포함
 @NoArgsConstructor // 기본 생성자 생성
 @AllArgsConstructor // 모든 필드를 매개변수로 받는 생성자 생성
-public class NoteEntity {
+public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,14 +33,14 @@ public class NoteEntity {
     @ManyToOne
     private Member author;
 
-    public NoteEntity(String title, String content, Member author) {
+    public Note(String title, String content, Member author) {
         this.title = title;
         this.content = content;
         this.author = author;
     }
 
-    public static NoteEntity createNote(String title, String content, Member author) {
-        return new NoteEntity(
+    public static Note createNote(String title, String content, Member author) {
+        return new Note(
                 title,
                 content,
                 author

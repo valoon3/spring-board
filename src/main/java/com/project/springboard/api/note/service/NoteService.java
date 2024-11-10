@@ -1,6 +1,6 @@
 package com.project.springboard.api.note.service;
 
-import com.project.springboard.api.note.entities.NoteEntity;
+import com.project.springboard.api.note.entities.Note;
 import com.project.springboard.api.note.repository.NoteRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -22,20 +22,20 @@ public class NoteService {
     }
 
     // 글쓰기 (게시물 생성) 기능
-    public NoteEntity createOrUpdateNote(NoteEntity noteEntity) {
-        if (noteEntity.getId() == null) {
+    public Note createOrUpdateNote(Note note) {
+        if (note.getId() == null) {
             // 새로운 게시물 작성 시 createdAt, updatedAt 설정
-            noteEntity.setCreatedAt(LocalDateTime.now());
-            noteEntity.setUpdatedAt(LocalDateTime.now());
+            note.setCreatedAt(LocalDateTime.now());
+            note.setUpdatedAt(LocalDateTime.now());
         } else {
             // 기존 게시물 수정 시 updatedAt만 갱신
-            noteEntity.setUpdatedAt(LocalDateTime.now());
+            note.setUpdatedAt(LocalDateTime.now());
         }
-        return noteRepository.save(noteEntity);
+        return noteRepository.save(note);
     }
 
     // 전체 글 조회
-    public List<NoteEntity> findMany() {
+    public List<Note> findMany() {
         return noteRepository.findAll();
     }
 

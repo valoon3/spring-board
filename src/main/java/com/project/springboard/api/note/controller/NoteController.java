@@ -1,6 +1,6 @@
 package com.project.springboard.api.note.controller;
 
-import com.project.springboard.api.note.entities.NoteEntity;
+import com.project.springboard.api.note.entities.Note;
 import com.project.springboard.api.note.service.NoteService;
 import com.project.springboard.common.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +18,14 @@ public class NoteController {
 
     // 글쓰기 (게시물 생성) 기능
     @PostMapping
-    public ResponseEntity<NoteEntity> createNote(@RequestBody NoteEntity noteEntity) {
-        NoteEntity createdNote = noteService.createOrUpdateNote(noteEntity);
+    public ResponseEntity<Note> createNote(@RequestBody Note note) {
+        Note createdNote = noteService.createOrUpdateNote(note);
         return ResponseEntity.ok(createdNote);
     }
 
     @GetMapping
-    public BaseResponse<List<NoteEntity>> findMany() {
-        List<NoteEntity> notes = noteService.findMany();
+    public BaseResponse<List<Note>> findMany() {
+        List<Note> notes = noteService.findMany();
         return BaseResponse.success(notes);
     }
 }

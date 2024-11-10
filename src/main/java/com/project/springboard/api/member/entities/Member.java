@@ -1,6 +1,6 @@
 package com.project.springboard.api.member.entities;
 
-import com.project.springboard.api.note.entities.NoteEntity;
+import com.project.springboard.api.note.entities.Note;
 import com.project.springboard.common.entity.BaseEntity;
 import com.project.springboard.common.util.DateUtils;
 import jakarta.persistence.*;
@@ -55,7 +55,7 @@ public class Member extends BaseEntity {
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<NoteEntity> notes;
+    private List<Note> notes;
 
 
     public void updateRefreshToken(String refreshToken, Date refreshTokenExpireTime) {
