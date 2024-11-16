@@ -4,15 +4,16 @@ import com.project.springboard.api.note.entities.Note;
 import com.project.springboard.common.entity.BaseEntity;
 import com.project.springboard.common.util.DateUtils;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
 @Builder
 @Getter
 @NoArgsConstructor
@@ -43,7 +44,7 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Column(nullable = false)
-    private boolean isLocked = true;
+    private boolean isLocked;
 
     @Column(length = 250)
     private String refreshToken;
@@ -52,7 +53,7 @@ public class Member extends BaseEntity {
 
     // MemberRole과의 일대다 관계 설정
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes;

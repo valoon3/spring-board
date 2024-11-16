@@ -39,9 +39,10 @@ public class WebSecurityConfig {
                 .addFilterBefore(
                         new JwtExceptionHandlerFilter(), JwtAuthenticationFilter.class
                 )
-                .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
-                        .anyRequest().authenticated()
-                )
+//                .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
+//                        .anyRequest()
+//                        .authenticated()
+//                )
                 .build();
     }
 

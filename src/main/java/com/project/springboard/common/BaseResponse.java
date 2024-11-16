@@ -10,11 +10,21 @@ public class BaseResponse<T> extends ResponseEntity<ResponseBodyDto<T>> {
         super(new ResponseBodyDto<>(data), status);
     }
 
-    public BaseResponse(ErrorType errorType) {
+    public BaseResponse(ErrorType errorType, String cause, String detailMessage) {
         super(new ResponseBodyDto<>(
                 null,
-                errorType.getErrorCode(),
-                errorType.getErrorMessage()
+                errorType.getErrorCode() + " : " + cause,
+                        detailMessage
+                ),
+                errorType.getHttpStatus()
+        );
+    }
+
+    public BaseResponse(ErrorType errorType) {
+        super(new ResponseBodyDto<>(
+                        null,
+                        errorType.getErrorCode(),
+                        errorType.getErrorMessage()
                 ),
                 errorType.getHttpStatus()
         );
@@ -27,5 +37,9 @@ public class BaseResponse<T> extends ResponseEntity<ResponseBodyDto<T>> {
 
     public static <T> BaseResponse<T> fail(ErrorType errorType) {
         return new BaseResponse<>(errorType);
+    }
+
+    public static <T> BaseResponse<T> fail(ErrorType errorType, String cause, String detailMessage) {
+        return new BaseResponse<>(errorType, cause, detailMessage);
     }
 }

@@ -72,7 +72,7 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
 //             서버 에러에 해당하는 에러 타입을 포함한 에러 응답을 JSON 형태로 반환
             ErrorType errorType = ErrorType.SERVER_ERROR;
 
-            String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(errorType));
+            String errorResponse = objectMapper.writeValueAsString(BaseResponse.fail(errorType, e.getCause().toString(), e.getMessage()));
             response.getWriter().write(errorResponse);
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             log.error("Exception 발생: {}", e.getMessage(), e);
